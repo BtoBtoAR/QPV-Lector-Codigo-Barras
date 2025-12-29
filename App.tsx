@@ -70,15 +70,34 @@ export default function App() {
       return;
     }
 
+    const costNum = parseFloat(cost);
+    const priceNum = parseFloat(price);
+    const quantityNum = parseFloat(quantity);
+
+    if (isNaN(costNum) || costNum < 0) {
+      Alert.alert('Error', 'El costo debe ser un número válido mayor o igual a 0');
+      return;
+    }
+
+    if (isNaN(priceNum) || priceNum < 0) {
+      Alert.alert('Error', 'El precio debe ser un número válido mayor o igual a 0');
+      return;
+    }
+
+    if (isNaN(quantityNum) || quantityNum < 0) {
+      Alert.alert('Error', 'La cantidad debe ser un número válido mayor o igual a 0');
+      return;
+    }
+
     try {
       const newProduct: Product = {
         barcode: scannedBarcode,
         photoUri,
         description,
         unitOfMeasure,
-        cost: parseFloat(cost),
-        price: parseFloat(price),
-        quantity: parseFloat(quantity),
+        cost: costNum,
+        price: priceNum,
+        quantity: quantityNum,
       };
 
       await saveProduct(newProduct);
@@ -97,8 +116,15 @@ export default function App() {
       return;
     }
 
+    const quantityNum = parseFloat(quantity);
+
+    if (isNaN(quantityNum) || quantityNum < 0) {
+      Alert.alert('Error', 'La cantidad debe ser un número válido mayor o igual a 0');
+      return;
+    }
+
     try {
-      await updateProductQuantity(product.barcode, parseFloat(quantity));
+      await updateProductQuantity(product.barcode, quantityNum);
       Alert.alert('Éxito', 'Cantidad actualizada correctamente');
       resetForm();
       setCurrentScreen('scanner');

@@ -14,7 +14,14 @@ export const saveProduct = async (product: Product): Promise<void> => {
     await AsyncStorage.setItem(PRODUCTS_KEY, JSON.stringify(products));
   } catch (error) {
     console.error('Error saving product:', error);
-    throw error;
+    if (error instanceof SyntaxError) {
+      // If JSON is corrupted, start fresh
+      const products: { [barcode: string]: Product } = {};
+      products[product.barcode] = product;
+      await AsyncStorage.setItem(PRODUCTS_KEY, JSON.stringify(products));
+    } else {
+      throw error;
+    }
   }
 };
 
@@ -27,6 +34,10 @@ export const getProduct = async (barcode: string): Promise<Product | null> => {
     return products[barcode] || null;
   } catch (error) {
     console.error('Error getting product:', error);
+    if (error instanceof SyntaxError) {
+      // If JSON is corrupted, return null
+      return null;
+    }
     throw error;
   }
 };
@@ -40,6 +51,10 @@ export const getAllProducts = async (): Promise<Product[]> => {
     return Object.values(products);
   } catch (error) {
     console.error('Error getting all products:', error);
+    if (error instanceof SyntaxError) {
+      // If JSON is corrupted, return empty array
+      return [];
+    }
     throw error;
   }
 };
