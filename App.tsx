@@ -162,10 +162,10 @@ export default function App() {
         >
           <View style={styles.overlay}>
             <View style={styles.scanArea}>
-              <View style={styles.corner} style={[styles.corner, styles.topLeft]} />
-              <View style={styles.corner} style={[styles.corner, styles.topRight]} />
-              <View style={styles.corner} style={[styles.corner, styles.bottomLeft]} />
-              <View style={styles.corner} style={[styles.corner, styles.bottomRight]} />
+              <View style={[styles.corner, styles.topLeft]} />
+              <View style={[styles.corner, styles.topRight]} />
+              <View style={[styles.corner, styles.bottomLeft]} />
+              <View style={[styles.corner, styles.bottomRight]} />
             </View>
             <Text style={styles.scanText}>Escanee el código de barras del producto</Text>
           </View>
